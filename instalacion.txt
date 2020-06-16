@@ -1,0 +1,65 @@
+-*- instalar  paquetes de node:
+ npm i express express-handlebars mongoose
+
+ -*- instalar  typescript global:
+ npm install -g typescript
+ user el compilador de typescript: tsc helloworld.ts
+
+ -*- crear archivo de config typescript: tsc --init
+ crea el archivo tsconfig.json
+
+  **  MODIFICAR ARCHIVO  --> tsconfig.json  : **
+ Dentro del objeto compilerOptions  hacer:
+  - En la propiedad "target" modificar a 'es6' ya que  nodejs lo entiende.
+  - Descomentar la propiedad 'outDir' y modificar el directorio a "./build/src" donde se ubicara la compilacion
+  - Descomentar las propiedades 'moduleResolution' 'esModuleInterop' Espesificar typescript para node.
+ Crear otras propiedades despues del objeto 'compilerOptions' para Espesificar  el codigo a compilar y crear  :
+ - La propiedad include con el siguiente patron para  todos los archivos '.ts'  "include" : ["./src/**/*"]
+ - La propiedad exclude para no incluir los modulos de node en la compiloacion "exclude": ["node_modules"]
+
+
+-*- Instalar  complemento para que el proyecto  en typescript entienda los mdoules de express para  ayuda y supervision de codigo:
+npm i @types/express -D
+
+-*- Instalar typescript  Local:
+npm i typescript -D
+-*- Paquete para jecutar TS sin compilar
+npm i ts-node -D
+-*- Instalar 'nodemon' parquete para hotReload
+npm i nodemon -D
+- Para usar nod3emon con typescript se crea un archivo 'nodemon.json'  ver estructura:
+
+poperties: 
+-- watch: indeica el directorio que eata observando para  hacer el hotreaload
+-- ext: extenciones de archivo que va a observar y compilar.
+-- ignore:  archivos que va a ignorar
+-- exec: se indica el  comando con que va a ejecutar el codigo
+{
+    "watch":[
+        "src"
+    ],
+    "ext":"ts",
+    "ignore": [
+        "src/**/*.spec.ts"
+    ],
+
+    "exec": "ts-node ./src/index.ts"
+}
+
+-*- Instalar ayuda entender complemento  para el procesador de plantillas express-handlebars:
+npm i 
+
+-*- instalacion Ayude de mongoose para que type script entienda el complemento de mongoose:
+npm i @types/mongoose
+-*- Intalar @handlebars/allow-prototype-access para enviar objetos de clase a las plantillas hbs:
+npm i @handlebars/allow-prototype-access handlebars
+Luego agregue esto "handlebars: allowInsecurePrototypeAccess(Handlebars)" al 'engine'
+** VER ARCHIVO package.json CON SCRIPTS DE EJECUCION Y COMPILACION  **
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "del build" /* elimina el directorio build */,
+    "build": "tsc" /* compila nuestro codigo ts*/,
+    "start": "node build/src" /*Ejecuta el codigo compilado a nodejs nativo*/,
+    "ts:node": "ts-node src/index.ts" /* Ejecuta nuestro codigo  directamente en ts sin transpilar */,
+    "dev":"nodemon" /* solo ejecutamos este conando ya que esta preconfigurado en el archivo nodemon.json*/
+  },
